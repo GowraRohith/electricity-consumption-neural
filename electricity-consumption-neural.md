@@ -12,7 +12,18 @@ In order to determine whether **stationarity** is present in our model:
 2.  A Dickey-Fuller test is conducted
 3.  The time series is log-transformed and the above two procedures are run once again in order to determine the change (if any) in stationarity
 
-Firstly, here is a plot of the time series: [![lstm kilowatts consumed per day](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/kilowatts-consumed-per-day.png)](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/kilowatts-consumed-per-day.png) It is observed that the volatility (or change in consumption from one day to the next) is quite high. In this regard, a logarithmic transformation could be of use in attempting to smooth this data somewhat. Before doing so, the ACF and PACF plots are generated, and a Dickey-Fuller test is conducted. **Autocorrelation Plot** [![autocorrelation without log](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/autocorrelation-without-log.png)](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/autocorrelation-without-log.png) **Partial Autocorrelation Plot** [![partial autocorrelation function](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/partial-autocorrelation-function.png)](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/partial-autocorrelation-function.png) Both the autocorrelation and partial autocorrelation plots exhibit significant volatility, implying that correlations exist across several intervals in the time series. When a Dickey-Fuller test is run, the following results are yielded:
+Firstly, here is a plot of the time series: 
+[![lstm kilowatts consumed per day](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/kilowatts-consumed-per-day.png)](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/kilowatts-consumed-per-day.png)
+
+It is observed that the volatility (or change in consumption from one day to the next) is quite high. In this regard, a logarithmic transformation could be of use in attempting to smooth this data somewhat. Before doing so, the ACF and PACF plots are generated, and a Dickey-Fuller test is conducted. 
+
+**Autocorrelation Plot** 
+
+[![autocorrelation without log](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/autocorrelation-without-log.png)](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/autocorrelation-without-log.png)
+
+**Partial Autocorrelation Plot** [![partial autocorrelation function](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/partial-autocorrelation-function.png)](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/partial-autocorrelation-function.png)
+
+Both the autocorrelation and partial autocorrelation plots exhibit significant volatility, implying that correlations exist across several intervals in the time series. When a Dickey-Fuller test is run, the following results are yielded:
 
 ```>>> # Dickey-Fuller Test
 ... result = adfuller(data1)
