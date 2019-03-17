@@ -27,21 +27,20 @@ It is observed that the volatility (or change in consumption from one day to the
 
 Both the autocorrelation and partial autocorrelation plots exhibit significant volatility, implying that correlations exist across several intervals in the time series. When a Dickey-Fuller test is run, the following results are yielded:
 
-```>>> # Dickey-Fuller Test
-... result = adfuller(data1)
->>> print('ADF Statistic: %f' % result[0])
+```# Dickey-Fuller Test
+result = adfuller(data1)
+print('ADF Statistic: %f' % result[0])
 ADF Statistic: -2.703927
->>> print('p-value: %f' % result[1])
+print('p-value: %f' % result[1])
 p-value: 0.073361
->>> print('Critical Values:')
+print('Critical Values:')
 Critical Values:
->>> for key, value in result[4].items():
-...     print('\t%s: %.3f' % (key, value))
-... 
+for key, value in result[4].items():
+     print('\t%s: %.3f' % (key, value))
+ 
 	1%: -3.440
 	5%: -2.866
-	10%: -2.569
-```
+	10%: -2.569```
 
 With a p-value above 0.05, the null hypothesis of non-stationarity cannot be rejected.
 
