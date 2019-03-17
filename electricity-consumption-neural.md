@@ -27,7 +27,7 @@ It is observed that the volatility (or change in consumption from one day to the
 
 Both the autocorrelation and partial autocorrelation plots exhibit significant volatility, implying that correlations exist across several intervals in the time series. When a Dickey-Fuller test is run, the following results are yielded:
 
-Input [1]:
+**Input [1]:**
 
 ```
 result = adfuller(data1)
@@ -41,7 +41,7 @@ for key, value in result[4].items():
      print('\t%s: %.3f' % (key, value))
 ```
 
-Output [1]:
+**Output [1]:**
 
 ```
 Output
