@@ -62,7 +62,11 @@ The coefficient of variation (or mean divided by standard deviation) is 0.236, d
 dataset = log(dataset)
 ```
 
-While the time series remains volatile, the size of the deviations have decreased slightly when expressed in logarithmic format: [![kilowatts consumed per day logarithmic format](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/kilowatts-consumed-per-day-logarithmic-format-1.png)](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/kilowatts-consumed-per-day-logarithmic-format-1.png) Moreover, the coefficient of variation has decreased significantly to 0.0319, implying that the variability of the trend in relation to the mean is significantly lower than previously.
+While the time series remains volatile, the size of the deviations have decreased slightly when expressed in logarithmic format: 
+
+[![kilowatts consumed per day logarithmic format](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/kilowatts-consumed-per-day-logarithmic-format-1.png)](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/kilowatts-consumed-per-day-logarithmic-format-1.png)
+
+Moreover, the coefficient of variation has decreased significantly to 0.0319, implying that the variability of the trend in relation to the mean is significantly lower than previously.
 
 ```>>> std2=np.std(dataset)
 >>> mean2=np.mean(dataset)
@@ -75,7 +79,17 @@ While the time series remains volatile, the size of the deviations have decrease
 0.031988855
 ```
 
-Again, ACF and PACF plots are generated on the logarithmic data, and a Dickey-Fuller test is conducted once again. **Autocorrelation Plot** [![autocorrelation with log](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/autocorrelation-with-log.png)](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/autocorrelation-with-log.png) **Partial Autocorrelation Plot** [![partial autocorrelation function log](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/partial-autocorrelation-function-log.png)](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/partial-autocorrelation-function-log.png) **Dickey-Fuller Test**
+Again, ACF and PACF plots are generated on the logarithmic data, and a Dickey-Fuller test is conducted once again. 
+
+**Autocorrelation Plot** 
+
+[![autocorrelation with log](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/autocorrelation-with-log.png)](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/autocorrelation-with-log.png) 
+
+**Partial Autocorrelation Plot** 
+
+[![partial autocorrelation function log](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/partial-autocorrelation-function-log.png)](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/partial-autocorrelation-function-log.png) 
+
+**Dickey-Fuller Test**
 
 ```>>> # Dickey-Fuller Test
 ... result = adfuller(logdataset)
@@ -243,7 +257,11 @@ Train Score: 0.24 RMSE
 Test Score: 0.23 RMSE
 ```
 
-The model shows a root mean squared error of **0.24** on the training dataset, and **0.23** on the test dataset. The mean kilowatt consumption (expressed in logarithmic format) is **8.27**, which means that the error of 0.23 represents less than 3% of the mean consumption. Here is the plot of predicted versus actual consumption: [![predicted vs actual consumption 1 day](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/predicted-vs-actual-consumption-1-day.png)](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/predicted-vs-actual-consumption-1-day.png) Interestingly, when the predictions are generated on the raw data (not converted into logarithmic format), the following training and test errors are yielded:
+The model shows a root mean squared error of **0.24** on the training dataset, and **0.23** on the test dataset. The mean kilowatt consumption (expressed in logarithmic format) is **8.27**, which means that the error of 0.23 represents less than 3% of the mean consumption. Here is the plot of predicted versus actual consumption: 
+
+[![predicted vs actual consumption 1 day](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/predicted-vs-actual-consumption-1-day.png)](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/predicted-vs-actual-consumption-1-day.png) 
+
+Interestingly, when the predictions are generated on the raw data (not converted into logarithmic format), the following training and test errors are yielded:
 
 ```>>> # calculate RMSE
 ... trainScore = math.sqrt(mean_squared_error(Y_train[0], trainpred[:,0]))
@@ -254,7 +272,11 @@ Train Score: 840.95 RMSE
 Test Score: 802.62 RMSE
 ```
 
-In the context of a mean consumption of 4043 kilowatts per day, the mean squared error for the test score represents nearly 20% of the total mean daily consumption, and is quite high in comparison to that generated on the logarithmic data. That said, it is important to bear in mind that the prediction was made using 1-day of previous data, i.e. Y represents consumption at time t, while X represents consumption at time t-1, as set by the **previous** variable in the code previously. Let's see what happens if this is increased to **10** and **50** days. **10 days** [![10 days](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/over-10-days.png)](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/over-10-days.png)
+In the context of a mean consumption of 4043 kilowatts per day, the mean squared error for the test score represents nearly 20% of the total mean daily consumption, and is quite high in comparison to that generated on the logarithmic data. That said, it is important to bear in mind that the prediction was made using 1-day of previous data, i.e. Y represents consumption at time t, while X represents consumption at time t-1, as set by the **previous** variable in the code previously. Let's see what happens if this is increased to **10** and **50** days. 
+
+**10 days** 
+
+[![10 days](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/over-10-days.png)](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/over-10-days.png)
 
 ```>>> # calculate RMSE
 ... trainScore = math.sqrt(mean_squared_error(Y_train[0], trainpred[:,0]))
@@ -265,7 +287,9 @@ Train Score: 0.08 RMSE
 Test Score: 0.10 RMSE
 ```
 
-**50 days** [![50 days](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/over-50-days.png)](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/over-50-days.png)
+**50 days** 
+
+[![50 days](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/over-50-days.png)](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/over-50-days.png)
 
 ```>>> print('Train Score: %.2f RMSE' % (trainScore))
 Train Score: 0.07 RMSE
