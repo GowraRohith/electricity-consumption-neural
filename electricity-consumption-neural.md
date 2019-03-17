@@ -21,7 +21,9 @@ It is observed that the volatility (or change in consumption from one day to the
 
 [![autocorrelation without log](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/autocorrelation-without-log.png)](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/autocorrelation-without-log.png)
 
-**Partial Autocorrelation Plot** [![partial autocorrelation function](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/partial-autocorrelation-function.png)](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/partial-autocorrelation-function.png)
+**Partial Autocorrelation Plot**
+
+[![partial autocorrelation function](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/partial-autocorrelation-function.png)](http://www.michaeljgrogan.com/wp-content/uploads/2018/12/partial-autocorrelation-function.png)
 
 Both the autocorrelation and partial autocorrelation plots exhibit significant volatility, implying that correlations exist across several intervals in the time series. When a Dickey-Fuller test is run, the following results are yielded:
 
