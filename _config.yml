@@ -1,1 +1,11 @@
 theme: jekyll-theme-cayman
+
+# Site Settings
+title: "MGCodesandStats"
+name: "Michael Grogan"
+description: "Electricity Consumption LSTM"
+
+social-network-links:
+  rss: true
+  email: "michael@michaeljgrogan.com"
+  github: MGCodesandStats
