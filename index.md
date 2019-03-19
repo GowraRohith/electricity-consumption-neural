@@ -21,17 +21,17 @@ In order to determine whether **stationarity** is present in our model:
 3.  The time series is log-transformed and the above two procedures are run once again in order to determine the change (if any) in stationarity
 
 Firstly, here is a plot of the time series: 
-[lstm kilowatts consumed per day](https://github.com/MGCodesandStats/electricity-consumption-neural/blob/master/kilowatts-consumed-per-day.png)
+![lstm kilowatts consumed per day](https://github.com/MGCodesandStats/electricity-consumption-neural/blob/master/kilowatts-consumed-per-day.png)
 
 It is observed that the volatility (or change in consumption from one day to the next) is quite high. In this regard, a logarithmic transformation could be of use in attempting to smooth this data somewhat. Before doing so, the ACF and PACF plots are generated, and a Dickey-Fuller test is conducted. 
 
 **Autocorrelation Plot** 
 
-[autocorrelation without log](https://github.com/MGCodesandStats/electricity-consumption-neural/blob/master/autocorrelation-without-log.png)
+![autocorrelation without log](https://github.com/MGCodesandStats/electricity-consumption-neural/blob/master/autocorrelation-without-log.png)
 
 **Partial Autocorrelation Plot**
 
-[partial autocorrelation function](https://github.com/MGCodesandStats/electricity-consumption-neural/blob/master/partial-autocorrelation-function.png)
+![partial autocorrelation function](https://github.com/MGCodesandStats/electricity-consumption-neural/blob/master/partial-autocorrelation-function.png)
 
 Both the autocorrelation and partial autocorrelation plots exhibit significant volatility, implying that correlations exist across several intervals in the time series. When a Dickey-Fuller test is run, the following results are yielded:
 
@@ -79,7 +79,7 @@ dataset = log(dataset)
 
 While the time series remains volatile, the size of the deviations have decreased slightly when expressed in logarithmic format: 
 
-[kilowatts consumed per day logarithmic format](https://github.com/MGCodesandStats/electricity-consumption-neural/blob/master/kilowatts-consumed-per-day-logarithmic-format-1.png)
+![kilowatts consumed per day logarithmic format](https://github.com/MGCodesandStats/electricity-consumption-neural/blob/master/kilowatts-consumed-per-day-logarithmic-format-1.png)
 
 Moreover, the coefficient of variation has decreased significantly to 0.0319, implying that the variability of the trend in relation to the mean is significantly lower than previously.
 
@@ -98,11 +98,11 @@ Again, ACF and PACF plots are generated on the logarithmic data, and a Dickey-Fu
 
 **Autocorrelation Plot** 
 
-[autocorrelation with log](https://github.com/MGCodesandStats/electricity-consumption-neural/blob/master/autocorrelation-with-log.png) 
+![autocorrelation with log](https://github.com/MGCodesandStats/electricity-consumption-neural/blob/master/autocorrelation-with-log.png) 
 
 **Partial Autocorrelation Plot** 
 
-[partial autocorrelation function log](https://github.com/MGCodesandStats/electricity-consumption-neural/blob/master/partial-autocorrelation-function-log.png) 
+![partial autocorrelation function log](https://github.com/MGCodesandStats/electricity-consumption-neural/blob/master/partial-autocorrelation-function-log.png) 
 
 **Dickey-Fuller Test**
 
@@ -274,7 +274,7 @@ Test Score: 0.23 RMSE
 
 The model shows a root mean squared error of **0.24** on the training dataset, and **0.23** on the test dataset. The mean kilowatt consumption (expressed in logarithmic format) is **8.27**, which means that the error of 0.23 represents less than 3% of the mean consumption. Here is the plot of predicted versus actual consumption: 
 
-[predicted vs actual consumption 1 day](https://github.com/MGCodesandStats/electricity-consumption-neural/blob/master/predicted-vs-actual-consumption-1-day.png) 
+![predicted vs actual consumption 1 day](https://github.com/MGCodesandStats/electricity-consumption-neural/blob/master/predicted-vs-actual-consumption-1-day.png) 
 
 Interestingly, when the predictions are generated on the raw data (not converted into logarithmic format), the following training and test errors are yielded:
 
@@ -291,7 +291,7 @@ In the context of a mean consumption of 4043 kilowatts per day, the mean squared
 
 **10 days** 
 
-[10 days](https://github.com/MGCodesandStats/electricity-consumption-neural/blob/master/over-10-days.png)
+![10 days](https://github.com/MGCodesandStats/electricity-consumption-neural/blob/master/over-10-days.png)
 
 ```>>> # calculate RMSE
 ... trainScore = math.sqrt(mean_squared_error(Y_train[0], trainpred[:,0]))
@@ -304,7 +304,7 @@ Test Score: 0.10 RMSE
 
 **50 days** 
 
-[50 days](https://github.com/MGCodesandStats/electricity-consumption-neural/blob/master/over-50-days.png)
+![50 days](https://github.com/MGCodesandStats/electricity-consumption-neural/blob/master/over-50-days.png)
 
 ```>>> print('Train Score: %.2f RMSE' % (trainScore))
 Train Score: 0.07 RMSE
