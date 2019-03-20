@@ -132,7 +132,8 @@ Now, the LSTM model itself is used for forecasting purposes.
 
 Firstly, the relevant libraries are imported and data processing is carried out:
 
-```import numpy as np
+```
+import numpy as np
 import matplotlib.pyplot as plt
 from pandas import read_csv
 import math
@@ -147,7 +148,8 @@ import os;
 path="filepath"
 os.chdir(path)
 os.getcwd()
-
+```
+```
 # Form dataset matrix
 def create_dataset(dataset, previous=1):
 	dataX, dataY = [], []
@@ -193,40 +195,34 @@ X_test = np.reshape(X_test, (X_test.shape[0], 1, X_test.shape[1]))
 
 The model is trained over **100** epochs, and the predictions are generated.
 
-```# Generate LSTM network
+```
 model = Sequential()
 model.add(LSTM(4, input_shape=(1, previous)))
 model.add(Dense(1))
 model.compile(loss='mean_squared_error', optimizer='adam')
 model.fit(X_train, Y_train, epochs=100, batch_size=1, verbose=2)
 
-# Generate predictions
 trainpred = model.predict(X_train)
 testpred = model.predict(X_test)
 
-# Convert predictions back to normal values
 trainpred = scaler.inverse_transform(trainpred)
 Y_train = scaler.inverse_transform([Y_train])
 testpred = scaler.inverse_transform(testpred)
 Y_test = scaler.inverse_transform([Y_test])
 
-# calculate RMSE
 trainScore = math.sqrt(mean_squared_error(Y_train[0], trainpred[:,0]))
 print('Train Score: %.2f RMSE' % (trainScore))
 testScore = math.sqrt(mean_squared_error(Y_test[0], testpred[:,0]))
 print('Test Score: %.2f RMSE' % (testScore))
 
-# Train predictions
 trainpredPlot = np.empty_like(dataset)
 trainpredPlot[:, :] = np.nan
 trainpredPlot[previous:len(trainpred)+previous, :] = trainpred
 
-# Test predictions
 testpredPlot = np.empty_like(dataset)
 testpredPlot[:, :] = np.nan
 testpredPlot[len(trainpred)+(previous*2)+1:len(dataset)-1, :] = testpred
 
-# Plot all predictions
 inversetransform, =plt.plot(scaler.inverse_transform(dataset))
 trainpred, =plt.plot(trainpredPlot)
 testpred, =plt.plot(testpredPlot)
@@ -238,7 +234,8 @@ plt.show()
 
 Here is the output when 100 epochs are generated:
 
-```Epoch 94/100
+```
+Epoch 94/100
  - 2s - loss: 0.0406
 Epoch 95/100
  - 2s - loss: 0.0406
@@ -278,7 +275,8 @@ The model shows a root mean squared error of **0.24** on the training dataset, a
 
 Interestingly, when the predictions are generated on the raw data (not converted into logarithmic format), the following training and test errors are yielded:
 
-```>>> # calculate RMSE
+```
+>>> # calculate RMSE
 ... trainScore = math.sqrt(mean_squared_error(Y_train[0], trainpred[:,0]))
 >>> print('Train Score: %.2f RMSE' % (trainScore))
 Train Score: 840.95 RMSE
@@ -293,7 +291,8 @@ In the context of a mean consumption of 4043 kilowatts per day, the mean squared
 
 ![10 days](over-10-days.png)
 
-```>>> # calculate RMSE
+```
+>>> # calculate RMSE
 ... trainScore = math.sqrt(mean_squared_error(Y_train[0], trainpred[:,0]))
 >>> print('Train Score: %.2f RMSE' % (trainScore))
 Train Score: 0.08 RMSE
@@ -306,7 +305,8 @@ Test Score: 0.10 RMSE
 
 ![50 days](over-50-days.png)
 
-```>>> print('Train Score: %.2f RMSE' % (trainScore))
+```
+>>> print('Train Score: %.2f RMSE' % (trainScore))
 Train Score: 0.07 RMSE
 >>> testScore = math.sqrt(mean_squared_error(Y_test[0], testpred[:,0]))
 >>> print('Test Score: %.2f RMSE' % (testScore))
@@ -315,16 +315,18 @@ Test Score: 0.10 RMSE
 
 We can see that the test error was significantly lower over the 10 and 50-day periods, and the volatility in consumption was much better captured given that the LSTM model took more historical data into account when forecasting. Given the data is in logarithmic format, it is now possible to obtain the true values of the predictions by obtaining the exponent of the data. For instance, the **testpred** variable is reshaped with (1, -1):
 
-```>>> testpred.reshape(1,-1)
+```
+>>> testpred.reshape(1,-1)
 array([[7.7722197, 8.277015 , 8.458941 , 8.455311 , 8.447589 , 8.445035, 
  ......
 8.425287 , 8.404881 , 8.457063 , 8.423954 , 7.98714 , 7.9003944,
 8.240862 , 8.41654 , 8.423854 , 8.437414 , 8.397851 , 7.9047146]],
-dtype=float32)```
-
+dtype=float32)
+```
 Using numpy, the exponent is then calculated:
 
-```>>> np.exp(testpred)
+```
+>>> np.exp(testpred)
 array([[2373.7344],
        [3932.4375],
        [4717.062 ],
