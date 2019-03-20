@@ -1,5 +1,3 @@
-# LSTM for electricity
-
 # Import libraries
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,7 +12,7 @@ from pandas import Series
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
 import os;
-path="/media/veracrypt9/a_documents/group b/computing/data science/conferences/9 dublin data science and engineering/electricity lstm modified"
+path="directory"
 os.chdir(path)
 os.getcwd()
 
@@ -116,10 +114,10 @@ testpred, =plt.plot(testpredPlot)
 plt.title("Predicted vs. Actual Consumption")
 plt.show()
 
+# Percentage errors
 Y_test=np.exp(Y_test)
 predictions=predictions.reshape(1,-1)
 predictions=np.exp(predictions)
-
 percentage_error=((predictions-Y_test)/Y_test)
 percentage_error=abs(percentage_error)
 mean=np.mean(percentage_error)
