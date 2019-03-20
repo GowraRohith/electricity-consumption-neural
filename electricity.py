@@ -64,7 +64,7 @@ train_size = int(len(dataset) * 0.8)
 test_size = len(dataset) - train_size
 train, test = dataset[0:train_size,:], dataset[train_size:len(dataset),:]
 
-# reshape into X=t-1 and Y=t (MODIFY TIME HERE)
+# reshape into X=t-50 and Y=t (MODIFY TIME HERE)
 previous = 50
 X_train, Y_train = create_dataset(train, previous)
 X_test, Y_test = create_dataset(test, previous)
