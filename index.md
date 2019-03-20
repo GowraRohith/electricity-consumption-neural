@@ -57,10 +57,10 @@ Output
 	5%: -2.866
 	10%: -2.569
 ```
-
 With a p-value above 0.05, the null hypothesis of non-stationarity cannot be rejected.
 
-```>>> std1=np.std(dataset)
+```
+>>> std1=np.std(dataset)
 >>> mean1=np.mean(dataset)
 >>> cv1=std1/mean1 #Coefficient of Variation
 >>> std1
@@ -73,7 +73,8 @@ With a p-value above 0.05, the null hypothesis of non-stationarity cannot be rej
 
 The coefficient of variation (or mean divided by standard deviation) is 0.236, demonstrating significant volatility in the series. Now, the data is transformed into logarithmic format.
 
-```from numpy import log
+```
+from numpy import log
 dataset = log(dataset)
 ```
 
@@ -83,7 +84,8 @@ While the time series remains volatile, the size of the deviations have decrease
 
 Moreover, the coefficient of variation has decreased significantly to 0.0319, implying that the variability of the trend in relation to the mean is significantly lower than previously.
 
-```>>> std2=np.std(dataset)
+```
+>>> std2=np.std(dataset)
 >>> mean2=np.mean(dataset)
 >>> cv2=std2/mean2 #Coefficient of Variation
 >>> std2
@@ -123,7 +125,7 @@ Critical Values:
 	10%: -2.569
 ```
 
-The p-value for the Dickey-Fuller test has decreased to 0.0576\. While this technically does not enter the 5% level of significance threshold necessary to reject the null hypothesis, the logarithmic time series has shown lower volatility based on the CV metric, and therefore this time series is used for forecasting purposes with LSTM.
+The p-value for the Dickey-Fuller test has decreased to 0.0576. While this technically does not enter the 5% level of significance threshold necessary to reject the null hypothesis, the logarithmic time series has shown lower volatility based on the CV metric, and therefore this time series is used for forecasting purposes with LSTM.
 
 ## Time Series Analysis with LSTM
 
