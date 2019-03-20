@@ -150,6 +150,8 @@ path="filepath"
 os.chdir(path)
 os.getcwd()
 ```
+The dataset matrix is formed and the data is normalised for analysis with the LSTM model:
+
 ```
 # Form dataset matrix
 def create_dataset(dataset, previous=1):
@@ -182,8 +184,8 @@ train_size = int(len(dataset) * 0.8)
 test_size = len(dataset) - train_size
 train, test = dataset[0:train_size,:], dataset[train_size:len(dataset),:]
 
-# reshape into X=t-1 and Y=t
-previous = 1
+# reshape into X=t-50 and Y=t
+previous = 50
 X_train, Y_train = create_dataset(train, previous)
 X_test, Y_test = create_dataset(test, previous)
 
