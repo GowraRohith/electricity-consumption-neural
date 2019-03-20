@@ -210,6 +210,7 @@ trainpred = scaler.inverse_transform(trainpred)
 Y_train = scaler.inverse_transform([Y_train])
 testpred = scaler.inverse_transform(testpred)
 Y_test = scaler.inverse_transform([Y_test])
+predictions = testpred
 
 trainScore = math.sqrt(mean_squared_error(Y_train[0], trainpred[:,0]))
 print('Train Score: %.2f RMSE' % (trainScore))
@@ -314,10 +315,10 @@ Train Score: 0.07 RMSE
 Test Score: 0.10 RMSE
 ```
 
-We can see that the test error was significantly lower over the 10 and 50-day periods, and the volatility in consumption was much better captured given that the LSTM model took more historical data into account when forecasting. Given the data is in logarithmic format, it is now possible to obtain the true values of the predictions by obtaining the exponent of the data. For instance, the **testpred** variable is reshaped with (1, -1):
+We can see that the test error was significantly lower over the 10 and 50-day periods, and the volatility in consumption was much better captured given that the LSTM model took more historical data into account when forecasting. Given the data is in logarithmic format, it is now possible to obtain the true values of the predictions by obtaining the exponent of the data. For instance, the **predictions** variable (or test predictions) is reshaped with (1, -1):
 
 ```
->>> testpred.reshape(1,-1)
+>>> predictions.reshape(1,-1)
 array([[7.7722197, 8.277015 , 8.458941 , 8.455311 , 8.447589 , 8.445035, 
  ......
 8.425287 , 8.404881 , 8.457063 , 8.423954 , 7.98714 , 7.9003944,
@@ -327,7 +328,7 @@ dtype=float32)
 Using numpy, the exponent is then calculated:
 
 ```
->>> np.exp(testpred)
+>>> np.exp(predictions)
 array([[2373.7344],
        [3932.4375],
        [4717.062 ],
@@ -336,6 +337,33 @@ array([[2373.7344],
        [4437.52  ],
        [2710.0288]], dtype=float32)
 ```
+
+Upon transforming the predictions back to the original format through calculating the exponent, we are now in a position to calculate the percentage error between the predicted and actual consumption, and plot a histogram of the percentage errors.
+
+```
+>>> percentage_error=((predictions-Y_test)/Y_test)
+>>> percentage_error=abs(percentage_error)
+>>> mean=np.mean(percentage_error)
+>>> mean
+0.061858222621514226
+>>> percentage_error=pd.DataFrame(percentage_error)
+>>> below10=percentage_error[percentage_error < 0.10].count()
+>>> all=percentage_error.count()
+>>> np.sum(below10)
+71
+>>> np.sum(all)
+84
+>>> plt.hist(percentage_error)
+(array([65., 11.,  4.,  2.,  1.,  0.,  0.,  0.,  0.,  1.]), array([3.24421771e-04, 7.22886782e-02, 1.44252935e-01, 2.16217191e-01,
+       2.88181447e-01, 3.60145704e-01, 4.32109960e-01, 5.04074217e-01,
+       5.76038473e-01, 6.48002729e-01, 7.19966986e-01]), <a list of 10 Patch objects>)
+>>> plt.show()
+```
+**71** of the **84** predictions showed a deviation of less than 10%. Moreover, the mean percentage error was 6.1%, indicating that the model did quite a good job at forecasting electricity consumption.
+
+Here is a histogram of the percentage errors, illustrating that the majority are below 10%:
+
+![errors](errors.png)
 
 # Conclusion
 
