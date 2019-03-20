@@ -150,6 +150,8 @@ path="filepath"
 os.chdir(path)
 os.getcwd()
 ```
+The dataset matrix is formed and the data is normalised for analysis with the LSTM model:
+
 ```
 # Form dataset matrix
 def create_dataset(dataset, previous=1):
