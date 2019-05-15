@@ -189,26 +189,9 @@ path="filepath"
 os.chdir(path)
 os.getcwd()
 ```
-The dataset matrix is formed and the data is normalised for analysis with the LSTM model:
+The data is now normalised for analysis with the LSTM model:
 
 ```
-# Form dataset matrix
-def create_dataset(dataset, previous=1):
-	dataX, dataY = [], []
-	for i in range(len(dataset)-previous-1):
-		a = dataset[i:(i+previous), 0]
-		dataX.append(a)
-		dataY.append(dataset[i + previous, 0])
-	return np.array(dataX), np.array(dataY)
-
-# fix random seed for reproducibility
-np.random.seed(7)
-
-# load dataset
-dataframe = read_csv('data.csv', usecols=[1], engine='python', skipfooter=3)
-dataset = dataframe.values
-dataset = dataset.astype('float32')
-
 from numpy import log
 dataset = log(dataset)
 
@@ -353,7 +336,7 @@ Test Score: 0.10 RMSE
 Train Score: 0.07 RMSE
 >>> testScore = math.sqrt(mean_squared_error(Y_test[0], testpred[:,0]))
 >>> print('Test Score: %.2f RMSE' % (testScore))
-Test Score: 0.10 RMSE
+Test Score: 0.11 RMSE
 ```
 
 We can see that the test error was significantly lower over the 10 and 50-day periods, and the volatility in consumption was much better captured given that the LSTM model took more historical data into account when forecasting. Given the data is in logarithmic format, it is now possible to obtain the true values of the predictions by obtaining the exponent of the data. For instance, the **predictions** variable (or test predictions) is reshaped with (1, -1):
