@@ -26,7 +26,7 @@ def create_dataset(dataset, previous=1):
 	return np.array(dataX), np.array(dataY)
 ```
 
-*Data Processing*
+*Data Cleaning*
 
 ```
 # fix random seed for reproducibility
