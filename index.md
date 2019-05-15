@@ -7,7 +7,46 @@
 
 # Electricity Consumption Using LSTM Neural Networks
 
-In this example, neural networks are used to forecast energy consumption of the Dublin City Council Civic Offices using data between April 2011 – February 2013. The original dataset is available from [data.gov.ie](https://data.gov.ie/dataset/energy-consumption-gas-and-electricity-civic-offices-2009-2012/resource/6091c604-8c94-4b44-ac52-c1694e83d746), and daily data was created by summing up the consumption for each day across the 15 minute intervals contained in the original dataset.
+In this example, an LSTM neural network is used to forecast energy consumption of the Dublin City Council Civic Offices using data between April 2011 – February 2013. The original dataset is available from [data.gov.ie](https://data.gov.ie/dataset/energy-consumption-gas-and-electricity-civic-offices-2009-2012/resource/6091c604-8c94-4b44-ac52-c1694e83d746).
+
+## Data Processing
+
+Given the data is presented in 15 minute intervals, daily data was created by summing up the consumption for each day across the 15 minute intervals contained in the original dataset, along with the dataset matrix being formed to allow for a specified number of lags to be regressed against electricity consumption at time *t*. NA values were dropped from the dataset, along with irrelevant columns.
+
+*Dataset Matrix*
+
+```
+# Form dataset matrix
+def create_dataset(dataset, previous=1):
+	dataX, dataY = [], []
+	for i in range(len(dataset)-previous-1):
+		a = dataset[i:(i+previous), 0]
+		dataX.append(a)
+		dataY.append(dataset[i + previous, 0])
+	return np.array(dataX), np.array(dataY)
+```
+
+*Data Cleaning*
+
+```
+# fix random seed for reproducibility
+np.random.seed(7)
+
+# load dataset
+df = read_csv('dccelectricitycivicsblocks34p20130221-1840.csv', engine='python', skipfooter=3)
+df2=df.rename(columns=df.iloc[0])
+df3=df2.drop(df.index[0])
+df3
+df3.drop(df3.index[0])
+df4=df3.drop('Date', axis=1)
+df5=df4.drop('Values', axis=1)
+df5
+df6=df5.dropna()
+df7=df6.values
+df7
+dataset=np.sum(df7, axis=1, dtype=float)
+dataset
+```
 
 ## Introduction to LSTM
 
