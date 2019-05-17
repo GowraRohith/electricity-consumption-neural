@@ -13,6 +13,12 @@ In this example, an LSTM neural network is used to forecast energy consumption o
 
 Given the data is presented in 15 minute intervals, daily data was created by summing up the consumption for each day across the 15 minute intervals contained in the original dataset, along with the dataset matrix being formed to allow for a specified number of lags to be regressed against electricity consumption at time *t*. NA values were dropped from the dataset, along with irrelevant columns.
 
+Here is a sample of the original data:
+
+![sample-data](sample-data.png)
+
+First, the relevant dataset matrix is formed for processing with the LSTM model:
+
 *Dataset Matrix*
 
 ```
@@ -25,6 +31,7 @@ def create_dataset(dataset, previous=1):
 		dataY.append(dataset[i + previous, 0])
 	return np.array(dataX), np.array(dataY)
 ```
+Then, the data in its original format is cleaned accordingly:
 
 *Data Cleaning*
 
@@ -47,6 +54,9 @@ df7
 dataset=np.sum(df7, axis=1, dtype=float)
 dataset
 ```
+Now, here is a modified numpy array showing the total electricity consumption for each day (with NAs dropped from the model):
+
+![array](array.png)
 
 ## Introduction to LSTM
 
