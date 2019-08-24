@@ -96,9 +96,9 @@ ACF and PACF plots are generated on the logarithmic data, and a Dickey-Fuller te
 >>> # Dickey-Fuller Test
 ... result = adfuller(logdataset)
 >>> print('ADF Statistic: %f' % result[0])
-ADF Statistic: -2.804265
+ADF Statistic: -3.251146
 >>> print('p-value: %f' % result[1])
-p-value: 0.057667
+p-value: 0.017209
 >>> print('Critical Values:')
 Critical Values:
 >>> for key, value in result[4].items():
