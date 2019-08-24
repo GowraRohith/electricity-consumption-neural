@@ -238,6 +238,43 @@ Upon transforming the predictions back to the original format through calculatin
 
 **63** of the **85** predictions showed a deviation of less than 10%. Moreover, the mean percentage error was 8.5%, indicating that the model did quite a good job at forecasting electricity consumption.
 
+## Comparison with ARIMA
+
+In this example, an LSTM (which is a reasonably complex machine learning model) was employed for forecasting purposes.
+
+Is LSTM increasing the forecast accuracy significantly so as to justify using this model over a simpler one? To determine this, an ARIMA model was used to generate forecasts on the test set for comparison purposes.
+
+Given that the autocorrelation function appears to be showing weekly seasonality (i.e. a spike in ACF is observed every seven lags), the seasonal parameter **m** was set to 7, and a SARIMAX(3, 1, 3)x(0, 1, 2, 7) was identified as the best configuration by *auto_arima* from the pyramid library.
+
+```
+ Statespace Model Results Dep. Variable: 	y 	No. Observations: 	593
+Model: 	SARIMAX(3, 1, 3)x(0, 1, 2, 7) 	Log Likelihood 	394.515
+Date: 	Sat, 24 Aug 2019 	AIC 	-769.030
+Time: 	16:36:19 	BIC 	-725.313
+Sample: 	0 	HQIC 	-751.993
+	- 593 		
+Covariance Type: 	opg 		
+	coef 	std err 	z 	P>|z| 	[0.025 	0.975]
+intercept 	-1.72e-05 	0.000 	-0.080 	0.936 	-0.000 	0.000
+ar.L1 	-1.2755 	0.046 	-27.595 	0.000 	-1.366 	-1.185
+ar.L2 	-0.4351 	0.049 	-8.919 	0.000 	-0.531 	-0.339
+ar.L3 	0.0928 	0.033 	2.833 	0.005 	0.029 	0.157
+ma.L1 	0.7089 	0.036 	19.840 	0.000 	0.639 	0.779
+ma.L2 	-0.7842 	0.029 	-27.179 	0.000 	-0.841 	-0.728
+ma.L3 	-0.8883 	0.038 	-23.548 	0.000 	-0.962 	-0.814
+ma.S.L7 	-0.1809 	0.035 	-5.119 	0.000 	-0.250 	-0.112
+ma.S.L14 	-0.1345 	0.049 	-2.745 	0.006 	-0.231 	-0.038
+sigma2 	0.0148 	0.001 	24.751 	0.000 	0.014 	0.016
+Ljung-Box (Q): 	67.61 	Jarque-Bera (JB): 	884.78
+Prob(Q): 	0.00 	Prob(JB): 	0.00
+Heteroskedasticity (H): 	0.61 	Skew: 	-0.09
+Prob(H) (two-sided): 	0.00 	Kurtosis: 	9.02
+
+
+Warnings:
+[1] Covariance matrix calculated using the outer product of gradients (complex-step).
+```
+
 # Conclusion
 
 For this example, LSTM proved to be quite accurate at predicting fluctuations in electricity consumption. Moreover, expressing the time series in logarithmic format allowed for a smoothing of the volatility in the data and improved the prediction accuracy of the LSTM.
