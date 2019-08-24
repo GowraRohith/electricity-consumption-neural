@@ -63,12 +63,6 @@ LSTMs (or long-short term memory networks) allow for analysis of **sequential** 
 
 ## Autocorrelation Plots, Dickey-Fuller test and Log-Transformation
 
-In order to determine whether **stationarity** is present in our model:
-
-1.  Autocorrelation and partial autocorrelation plots are generated
-2.  A Dickey-Fuller test is conducted
-3.  The time series is log-transformed and the above two procedures are run once again in order to determine the change (if any) in stationarity
-
 Firstly, here is a plot of the time series:
 
 ![lstm kilowatts consumed per day](kilowatts-consumed-per-day.png)
@@ -166,7 +160,7 @@ X_test = np.reshape(X_test, (X_test.shape[0], 1, X_test.shape[1]))
 
 ### LSTM Generation and Predictions
 
-The model is trained over **100** epochs, and the predictions are generated.
+The model is trained over **150** epochs, and the predictions are generated.
 
 ```
 model = Sequential()
@@ -174,134 +168,70 @@ model.add(LSTM(4, input_shape=(1, previous)))
 model.add(Dense(1))
 model.compile(loss='mean_squared_error', optimizer='adam')
 model.fit(X_train, Y_train, epochs=100, batch_size=1, verbose=2)
-
-trainpred = model.predict(X_train)
-testpred = model.predict(X_test)
-
-trainpred = scaler.inverse_transform(trainpred)
-Y_train = scaler.inverse_transform([Y_train])
-testpred = scaler.inverse_transform(testpred)
-Y_test = scaler.inverse_transform([Y_test])
-predictions = testpred
-
-trainScore = math.sqrt(mean_squared_error(Y_train[0], trainpred[:,0]))
-print('Train Score: %.2f RMSE' % (trainScore))
-testScore = math.sqrt(mean_squared_error(Y_test[0], testpred[:,0]))
-print('Test Score: %.2f RMSE' % (testScore))
-
-trainpredPlot = np.empty_like(dataset)
-trainpredPlot[:, :] = np.nan
-trainpredPlot[previous:len(trainpred)+previous, :] = trainpred
-
-testpredPlot = np.empty_like(dataset)
-testpredPlot[:, :] = np.nan
-testpredPlot[len(trainpred)+(previous*2)+1:len(dataset)-1, :] = testpred
-
-inversetransform, =plt.plot(scaler.inverse_transform(dataset))
-trainpred, =plt.plot(trainpredPlot)
-testpred, =plt.plot(testpredPlot)
-plt.title("Predicted vs. Actual Consumption")
-plt.show()
 ```
 
 ### Accuracy
 
-Here is the output when 100 epochs are generated:
+Here is the output when 150 epochs are generated:
 
 ```
-Epoch 94/100
- - 2s - loss: 0.0406
-Epoch 95/100
- - 2s - loss: 0.0406
-Epoch 96/100
- - 2s - loss: 0.0404
-Epoch 97/100
- - 2s - loss: 0.0406
-Epoch 98/100
- - 2s - loss: 0.0406
-Epoch 99/100
- - 2s - loss: 0.0403
-Epoch 100/100
- - 2s - loss: 0.0406
+Epoch 145/150
+493/493 - 2s - loss: 0.0058
+Epoch 146/150
+493/493 - 2s - loss: 0.0061
+Epoch 147/150
+493/493 - 2s - loss: 0.0059
+Epoch 148/150
+493/493 - 2s - loss: 0.0062
+Epoch 149/150
+493/493 - 2s - loss: 0.0058
+Epoch 150/150
+493/493 - 2s - loss: 0.0056
+```
 
+The model shows a root mean squared error of **0.07** on the training dataset, and **0.13** on the test dataset. 
+
+```
 >>> # Generate predictions
-... trainpred = model.predict(X_train)
+>>> trainpred = model.predict(X_train)
 >>> testpred = model.predict(X_test)
->>> 
+
 >>> # Convert predictions back to normal values
 ... trainpred = scaler.inverse_transform(trainpred)
 >>> Y_train = scaler.inverse_transform([Y_train])
 >>> testpred = scaler.inverse_transform(testpred)
 >>> Y_test = scaler.inverse_transform([Y_test])
->>> 
+
 >>> # calculate RMSE
 ... trainScore = math.sqrt(mean_squared_error(Y_train[0], trainpred[:,0]))
 >>> print('Train Score: %.2f RMSE' % (trainScore))
-Train Score: 0.24 RMSE
+Train Score: 0.07 RMSE
 >>> testScore = math.sqrt(mean_squared_error(Y_test[0], testpred[:,0]))
 >>> print('Test Score: %.2f RMSE' % (testScore))
-Test Score: 0.23 RMSE
+Test Score: 0.13 RMSE
 ```
-
-The model shows a root mean squared error of **0.24** on the training dataset, and **0.23** on the test dataset. 
 
 **50 days** 
 
 ![50 days](over-50-days.png)
 
-```
->>> print('Train Score: %.2f RMSE' % (trainScore))
-Train Score: 0.07 RMSE
->>> testScore = math.sqrt(mean_squared_error(Y_test[0], testpred[:,0]))
->>> print('Test Score: %.2f RMSE' % (testScore))
-Test Score: 0.11 RMSE
-```
-
-We can see that the test error was significantly lower over the 10 and 50-day periods, and the volatility in consumption was much better captured given that the LSTM model took more historical data into account when forecasting. Given the data is in logarithmic format, it is now possible to obtain the true values of the predictions by obtaining the exponent of the data. For instance, the **predictions** variable (or test predictions) is reshaped with (1, -1):
-
-```
->>> predictions.reshape(1,-1)
-array([[7.7722197, 8.277015 , 8.458941 , 8.455311 , 8.447589 , 8.445035, 
- ......
-8.425287 , 8.404881 , 8.457063 , 8.423954 , 7.98714 , 7.9003944,
-8.240862 , 8.41654 , 8.423854 , 8.437414 , 8.397851 , 7.9047146]],
-dtype=float32)
-```
-Using numpy, the exponent is then calculated:
-
-```
->>> np.exp(predictions)
-array([[2373.7344],
-       [3932.4375],
-       [4717.062 ],
-......
-       [4616.6016],
-       [4437.52  ],
-       [2710.0288]], dtype=float32)
-```
-
-Upon transforming the predictions back to the original format through calculating the exponent, we are now in a position to calculate the percentage error between the predicted and actual consumption, and plot a histogram of the percentage errors.
+Upon transforming the predictions back to the original format through calculating the exponent, we are now in a position to calculate the percentage error between the predicted and actual consumption.
 
 ```
 >>> percentage_error=((predictions-Y_test)/Y_test)
 >>> percentage_error=abs(percentage_error)
 >>> mean=np.mean(percentage_error)
 >>> mean
-0.061858222621514226
+0.0850737316467645
 >>> percentage_error=pd.DataFrame(percentage_error)
 >>> below10=percentage_error[percentage_error < 0.10].count()
 >>> all=percentage_error.count()
 >>> np.sum(below10)
-71
+63
 >>> np.sum(all)
-84
->>> plt.hist(percentage_error)
-(array([65., 11.,  4.,  2.,  1.,  0.,  0.,  0.,  0.,  1.]), array([3.24421771e-04, 7.22886782e-02, 1.44252935e-01, 2.16217191e-01,
-       2.88181447e-01, 3.60145704e-01, 4.32109960e-01, 5.04074217e-01,
-       5.76038473e-01, 6.48002729e-01, 7.19966986e-01]), <a list of 10 Patch objects>)
->>> plt.show()
+85
 ```
-**63** of the **85** predictions showed a deviation of less than 10%. Moreover, the mean percentage error was 6.1%, indicating that the model did quite a good job at forecasting electricity consumption.
+**63** of the **85** predictions showed a deviation of less than 10%. Moreover, the mean percentage error was 8.5%, indicating that the model did quite a good job at forecasting electricity consumption.
 
 # Conclusion
 
