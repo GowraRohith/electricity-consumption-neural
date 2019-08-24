@@ -167,11 +167,11 @@ X_test = np.reshape(X_test, (X_test.shape[0], 1, X_test.shape[1]))
 The model is trained over **150** epochs, and the predictions are generated.
 
 ```
-model = Sequential()
+model = tf.keras.Sequential()
 model.add(LSTM(4, input_shape=(1, previous)))
 model.add(Dense(1))
 model.compile(loss='mean_squared_error', optimizer='adam')
-model.fit(X_train, Y_train, epochs=100, batch_size=1, verbose=2)
+model.fit(X_train, Y_train, epochs=150, batch_size=1, verbose=2)
 ```
 
 ### Accuracy
