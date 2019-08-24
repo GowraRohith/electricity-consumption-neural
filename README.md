@@ -84,7 +84,7 @@ While the time series remains volatile, the size of the deviations have decrease
 
 ![kilowatts consumed per day logarithmic format](kilowatts-consumed-per-day-logarithmic-format-1.png)
 
-The coefficient of variation has decreased significantly to 0.0319, implying that the variability of the trend in relation to the mean is significantly lower than previously.
+The coefficient of variation (standard deviation/mean) has decreased to 0.031 from a prior 0.232, implying that the variability of the trend in relation to the mean is significantly lower than previously.
 
 ACF and PACF plots are generated on the logarithmic data, and a Dickey-Fuller test is conducted. 
 
@@ -301,7 +301,7 @@ Upon transforming the predictions back to the original format through calculatin
        5.76038473e-01, 6.48002729e-01, 7.19966986e-01]), <a list of 10 Patch objects>)
 >>> plt.show()
 ```
-**71** of the **84** predictions showed a deviation of less than 10%. Moreover, the mean percentage error was 6.1%, indicating that the model did quite a good job at forecasting electricity consumption.
+**63** of the **85** predictions showed a deviation of less than 10%. Moreover, the mean percentage error was 6.1%, indicating that the model did quite a good job at forecasting electricity consumption.
 
 # Conclusion
 
