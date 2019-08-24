@@ -73,77 +73,20 @@ Firstly, here is a plot of the time series:
 
 ![lstm kilowatts consumed per day](kilowatts-consumed-per-day.png)
 
-It is observed that the volatility (or change in consumption from one day to the next) is quite high. In this regard, a logarithmic transformation could be of use in attempting to smooth this data somewhat. Before doing so, the ACF and PACF plots are generated, and a Dickey-Fuller test is conducted. 
-
-**Autocorrelation Plot** 
-
-![autocorrelation without log](autocorrelation-without-log.png)
-
-**Partial Autocorrelation Plot**
-
-![partial autocorrelation function](partial-autocorrelation-function.png)
-
-Both the autocorrelation and partial autocorrelation plots exhibit significant volatility, implying that correlations exist across several intervals in the time series. A Dickey-Fuller test is run:
-
-```
-result = adfuller(data1)
-print('ADF Statistic: %f' % result[0])
-ADF Statistic: -2.703927
-print('p-value: %f' % result[1])
-p-value: 0.073361
-print('Critical Values:')
-Critical Values:
-for key, value in result[4].items():
-     print('\t%s: %.3f' % (key, value))
-```
-Here is the output:
-
-```
-Output
-	1%: -3.440
-	5%: -2.866
-	10%: -2.569
-```
-With a p-value above 0.05, the null hypothesis of non-stationarity cannot be rejected.
-
-```
->>> std1=np.std(dataset)
->>> mean1=np.mean(dataset)
->>> cv1=std1/mean1 #Coefficient of Variation
->>> std1
-954.7248
->>> mean1
-4043.4302
->>> cv1
-0.23611754
-```
-
-The coefficient of variation (or mean divided by standard deviation) is 0.236, demonstrating significant volatility in the series. Now, the data is transformed into logarithmic format.
+It is observed that the volatility (or change in consumption from one day to the next) is quite high. In this regard, a logarithmic transformation could be of use in attempting to smooth this data somewhat.
 
 ```
 from numpy import log
 dataset = log(dataset)
 ```
 
-While the time series remains volatile, the size of the deviations have decreased slightly when expressed in logarithmic format: 
+While the time series remains volatile, the size of the deviations have decreased slightly when expressed in logarithmic format:
 
 ![kilowatts consumed per day logarithmic format](kilowatts-consumed-per-day-logarithmic-format-1.png)
 
-Moreover, the coefficient of variation has decreased significantly to 0.0319, implying that the variability of the trend in relation to the mean is significantly lower than previously.
+The coefficient of variation has decreased significantly to 0.0319, implying that the variability of the trend in relation to the mean is significantly lower than previously.
 
-```
->>> std2=np.std(dataset)
->>> mean2=np.mean(dataset)
->>> cv2=std2/mean2 #Coefficient of Variation
->>> std2
-0.26462445
->>> mean2
-8.272395
->>> cv2
-0.031988855
-```
-
-Again, ACF and PACF plots are generated on the logarithmic data, and a Dickey-Fuller test is conducted once again. 
+ACF and PACF plots are generated on the logarithmic data, and a Dickey-Fuller test is conducted. 
 
 **Autocorrelation Plot** 
 
@@ -199,14 +142,9 @@ path="filepath"
 os.chdir(path)
 os.getcwd()
 ```
-The data is now normalised for analysis with the LSTM model:
+The data is now normalised for analysis with the LSTM model, and the time series of *t* is regressed against the series at *t - 50* (a 50 day lag was chosen after experimentation with numerous time intervals):
 
 ```
-from numpy import log
-dataset = log(dataset)
-
-meankwh=np.mean(dataset)
-
 # normalize dataset with MinMaxScaler
 scaler = MinMaxScaler(feature_range=(0, 1))
 dataset = scaler.fit_transform(dataset)
