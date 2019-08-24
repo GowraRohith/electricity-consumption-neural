@@ -243,37 +243,7 @@ Train Score: 0.24 RMSE
 Test Score: 0.23 RMSE
 ```
 
-The model shows a root mean squared error of **0.24** on the training dataset, and **0.23** on the test dataset. The mean kilowatt consumption (expressed in logarithmic format) is **8.27**, which means that the error of 0.23 represents less than 3% of the mean consumption. Here is the plot of predicted versus actual consumption: 
-
-![predicted vs actual consumption 1 day](predicted-vs-actual-consumption-1-day.png) 
-
-Interestingly, when the predictions are generated on the raw data (not converted into logarithmic format), the following training and test errors are yielded:
-
-```
->>> # calculate RMSE
-... trainScore = math.sqrt(mean_squared_error(Y_train[0], trainpred[:,0]))
->>> print('Train Score: %.2f RMSE' % (trainScore))
-Train Score: 840.95 RMSE
->>> testScore = math.sqrt(mean_squared_error(Y_test[0], testpred[:,0]))
->>> print('Test Score: %.2f RMSE' % (testScore))
-Test Score: 802.62 RMSE
-```
-
-In the context of a mean consumption of 4043 kilowatts per day, the mean squared error for the test score represents nearly 20% of the total mean daily consumption, and is quite high in comparison to that generated on the logarithmic data. That said, it is important to bear in mind that the prediction was made using 1-day of previous data, i.e. Y represents consumption at time t, while X represents consumption at time t-1, as set by the **previous** variable in the code previously. Let's see what happens if this is increased to **10** and **50** days. 
-
-**10 days** 
-
-![10 days](over-10-days.png)
-
-```
->>> # calculate RMSE
-... trainScore = math.sqrt(mean_squared_error(Y_train[0], trainpred[:,0]))
->>> print('Train Score: %.2f RMSE' % (trainScore))
-Train Score: 0.08 RMSE
->>> testScore = math.sqrt(mean_squared_error(Y_test[0], testpred[:,0]))
->>> print('Test Score: %.2f RMSE' % (testScore))
-Test Score: 0.10 RMSE
-```
+The model shows a root mean squared error of **0.24** on the training dataset, and **0.23** on the test dataset. 
 
 **50 days** 
 
