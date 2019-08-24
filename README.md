@@ -69,7 +69,8 @@ In order to determine whether **stationarity** is present in our model:
 2.  A Dickey-Fuller test is conducted
 3.  The time series is log-transformed and the above two procedures are run once again in order to determine the change (if any) in stationarity
 
-Firstly, here is a plot of the time series: 
+Firstly, here is a plot of the time series:
+
 ![lstm kilowatts consumed per day](kilowatts-consumed-per-day.png)
 
 It is observed that the volatility (or change in consumption from one day to the next) is quite high. In this regard, a logarithmic transformation could be of use in attempting to smooth this data somewhat. Before doing so, the ACF and PACF plots are generated, and a Dickey-Fuller test is conducted. 
@@ -393,10 +394,6 @@ Upon transforming the predictions back to the original format through calculatin
 >>> plt.show()
 ```
 **71** of the **84** predictions showed a deviation of less than 10%. Moreover, the mean percentage error was 6.1%, indicating that the model did quite a good job at forecasting electricity consumption.
-
-Here is a histogram of the percentage errors, illustrating that the majority are below 10%:
-
-![errors](errors.png)
 
 # Conclusion
 
