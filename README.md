@@ -120,25 +120,29 @@ Now, the LSTM model itself is used for forecasting purposes.
 Firstly, the relevant libraries are imported and data processing is carried out:
 
 ```
+# Import libraries
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 from pandas import read_csv
 import math
 import pylab
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.layers import LSTM
+import tensorflow as tf
 from pandas import Series
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
-import os;
-path="filepath"
-os.chdir(path)
-os.getcwd()
+import statsmodels
+import statsmodels.tsa.stattools as ts
+from statsmodels.tsa.stattools import acf, pacf
+from statsmodels.tsa.stattools import adfuller
 ```
-The data is now normalised for analysis with the LSTM model, and the time series of *t* is regressed against the series at *t - 50* (a 50 day lag was chosen after experimentation with numerous time intervals):
+The data is now normalised for analysis with the LSTM model, and the time series of *t* is regressed against the series at *t-50* (a 50 day lag was chosen after experimentation with numerous time intervals):
 
 ```
+from tensorflow.keras import layers
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import LSTM
+
 # normalize dataset with MinMaxScaler
 scaler = MinMaxScaler(feature_range=(0, 1))
 dataset = scaler.fit_transform(dataset)
@@ -231,6 +235,7 @@ Upon transforming the predictions back to the original format through calculatin
 >>> np.sum(all)
 85
 ```
+
 **63** of the **85** predictions showed a deviation of less than 10%. Moreover, the mean percentage error was 8.5%, indicating that the model did quite a good job at forecasting electricity consumption.
 
 # Conclusion
