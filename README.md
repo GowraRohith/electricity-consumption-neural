@@ -67,7 +67,7 @@ Firstly, here is a plot of the time series:
 
 ![lstm kilowatts consumed per day](kilowatts-consumed-per-day.png)
 
-It is observed that the volatility (or change in consumption from one day to the next) is quite high. In this regard, a logarithmic transformation could be of use in attempting to smooth this data somewhat.
+It is evident that the volatility (or change in consumption from one day to the next) is quite high. In this regard, a logarithmic transformation could be of use in attempting to smooth this data somewhat.
 
 ```
 from numpy import log
